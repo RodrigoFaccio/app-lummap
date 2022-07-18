@@ -1,13 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/pages/Login';
-import LinearGradient from 'react-native-linear-gradient';
-import Home from './src/pages/Home';
-import Routes from './src/Routes'
+import 'react-native-gesture-handler';
+import React from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import Routes from './src/routes/index';
+import { AuthProvider }from './src/Context/AuthProvider/LoginContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 export default function App() {
+
   return (
-    
-   <Routes/>
+    <NavigationContainer style={styles}>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <Routes/>
+        </AuthProvider>
+      </SafeAreaProvider>
+      </NavigationContainer>
   );
 }
 
@@ -17,5 +26,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop:Platform.OS==='ios'?20:10
   },
 });

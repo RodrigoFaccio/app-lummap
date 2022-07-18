@@ -9,6 +9,6 @@ import axios from "axios";
 });
  */
 const api = axios.create({
-  baseURL: "http://localhost:5006",
+  baseURL: "http://tsiip.com.br:5006/"
 });
 export default api;

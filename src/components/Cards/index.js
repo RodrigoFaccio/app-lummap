@@ -12,7 +12,11 @@ import Button from '../Button';
   TextButton
  } from './styles';
 import loc from '../../assets/loc.png'
-const Cards = () => {
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+
+const Cards = ({item}) => {
+  const navigation = useNavigation()
+  console.log('ITEM',item)
   return (
     <Container>
     
@@ -21,18 +25,21 @@ const Cards = () => {
 
       </ViewText>
       <ViewInfo>
-        <TextInfo>Bairro:Centro</TextInfo>
-        <TextInfo>Cidade: Santa RIta do Sapucai
+        <TextInfo>Bairro:{ item.bairro}</TextInfo>
+        <TextInfo>Cidade: {item.cidade}
         </TextInfo>
         <TextInfo>Tecnico: Pedro Henrique</TextInfo>
       </ViewInfo>
       <ViewButtons>
-        <ButtonVerMais>
+        <ButtonVerMais onPress={()=>navigation.navigate('VerMais',{item})}>
           <TextButton>
             Ver Mais
           </TextButton>
         </ButtonVerMais>
-        <ButtonVerMais loc={true}>
+        <ButtonVerMais loc={true} onPress={() => navigation.navigate('Maps', {
+          'latitude': item.latitude,
+          'longitude':item.longitude
+        })}>
           <TextButton>
             Localização
           </TextButton>

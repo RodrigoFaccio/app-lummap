@@ -1,29 +1,36 @@
-import React,{ useEffect, useState} from 'react';
-import { View,ScrollView } from 'react-native';
+import React,{ useEffect, useState,useContext} from 'react';
+import { View,ScrollView,Text,Modal,TouchableOpacity,FlatList } from 'react-native';
 import Cards from '../../components/Cards';
 import { LinearGradient } from 'expo-linear-gradient';
 import api from '../../services/api';
 import axios from 'axios';
+import AuthContext, { AuthProvider } from '../../Context/AuthProvider/LoginContext';
 
 // import { Container } from './styles';
 
 const Home = () => {
+  const { signed, user,signIn,signOut } = useContext(AuthContext);
 
   const [orders,setOrders] = useState([])
   const [load,setLoad] = useState(true)
+const [modalVisible, setModalVisible] = useState(true)
 
-
+const renderItem = ({ item }) => (
+  <Cards item={item} key={item.id}  />
+);
+console.log(user.data.token)
   useEffect(() => {
     async function requestOrders(){
 
       try {
-        const {data} = await fetch('http://localhost:5006/listarProtocolo', {
+        const {data} = await api.get('/listarProtocolo', {
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTQxMDQ1MjIsImV4cCI6MTY1NDE5MDkyMiwic3ViIjoiMTEyIn0.45p7Z2SOVsV3_UiZe9MgZ0prglwyrnz3L3qnDV48pY4' 
+            'Authorization': 'Bearer '+user.data.token 
           }
         })
   
-        console.log(data)
+        console.log(data.data)
+        setOrders(data.data)
       } catch (error) {
         console.log(error)
       }
@@ -37,13 +44,21 @@ const Home = () => {
   return <LinearGradient
   // Background Linear Gradient
   colors={['#E4E4E4', '#D4D4D4']}
-  style={{width:'100%',height:'100%',justifyContent:'center',alignContent:'center',alignItems:'center'}}
->
-<ScrollView style={{width:'100%',marginLeft:'10%',marginTop:50}}>
-<Cards/>
-<Cards/>
-<Cards/>
-</ScrollView>
+  style={{flex:1,justifyContent:'center',alignContent:'center',alignItems:'center'}}
+  >
+   
+
+      
+  <FlatList
+  data={orders}
+  renderItem={renderItem}
+  keyExtractor={item => item.id}
+  style={{width:'100%',marginLeft:'10%'}}
+/>
+
+    
+
+      
 
 
 </LinearGradient>
