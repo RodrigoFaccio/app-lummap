@@ -23,12 +23,13 @@ const isFocused = useIsFocused();
     async function requestOrders() {
 
       try {
-        const listarSaidaHoje = await api.get('/listar_hoje')
 
-        const arrComPrioridade = listarSaidaHoje.data.result.map(item=>{
+       
+        const listarSaidaAmanha = await api.get('listar_amanha')
+
+        const arrComPrioridade = listarSaidaAmanha.data.result.map(item=>{
           return{
             name:item.name,
-
             accommodation:item.accommodation,
             web:item.web,
           prioridade:false,
@@ -36,9 +37,9 @@ const isFocused = useIsFocused();
           }
         })
         
-        const listarEntradaHoje = await api.get('/listar_entrada_hoje');
+        const listarEntradaAmanha = await api.get('/listar_entrada_amanha');
 
-        const listarHojeRenovacao = listarEntradaHoje.data.result.map(item=>{
+        const listarAmanhaRenovacao = listarEntradaAmanha.data.result.map(item=>{
           return{
             name:item.name,
 
@@ -50,7 +51,7 @@ const isFocused = useIsFocused();
       
 
         const novaListaPrioridade = arrComPrioridade.map(obj1 => {
-          const objetoEncontrado = listarHojeRenovacao.find(obj2 => obj1.accommodation === obj2.accommodation);
+          const objetoEncontrado = listarAmanhaRenovacao.find(obj2 => obj1.accommodation === obj2.accommodation);
           if (objetoEncontrado) {
             return { ...obj1, prioridade: true,renovacao:objetoEncontrado.renovacao };
           }
@@ -87,15 +88,18 @@ const isFocused = useIsFocused();
     }
 
     requestOrders()
-    function formatarData(data) {
+function formatarData(data) {
+  data.setDate(data.getDate() + 1); // Adiciona mais um dia à data
+
   const dia = String(data.getDate()).padStart(2, '0');
   const mes = String(data.getMonth() + 1).padStart(2, '0');
   const ano = data.getFullYear();
+
   return `${dia}/${mes}/${ano}`;
 }
 
 const dataAtual = new Date();
-  const dataFormatada = formatarData(dataAtual);
+const dataFormatada = formatarData(dataAtual);
   setDate(dataFormatada)
    
   }, [isFocused]);
@@ -105,12 +109,12 @@ const dataAtual = new Date();
     <View style={styles.container}>
     <ScrollView style={{ width: '80%',  marginTop: 50 }}>
         <View style={styles.divTitle}>
-         <Ionicons name="arrow-back" size={24} color="black"  />
+         <Ionicons name="arrow-back" size={24} color="black"  onPress={()=>navigation.navigate('Home')}   />
           <Text style={styles.title}>
        {date}
           </Text>
           
-        <Ionicons name="arrow-forward" size={24} color="black" onPress={()=>navigation.navigate('Amanha')} />
+        <Ionicons name="arrow-forward" size={24} color="black"/>
         </View>
         {
           

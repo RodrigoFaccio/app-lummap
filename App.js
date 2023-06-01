@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/pages/Login';
 import LinearGradient from 'react-native-linear-gradient';
 import Home from './src/pages/Home';
-import Routes from './src/Routes'
+import Routes from './src/routes/index'
 export default function App() {
   return (
     

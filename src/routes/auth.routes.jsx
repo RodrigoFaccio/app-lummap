@@ -6,12 +6,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../pages/Login'
 import Home from '../pages/Home'
+import Amanha from '../pages/Amanha';
 
 
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+function AuthRoutes() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
@@ -19,10 +20,12 @@ function App() {
       }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Amanha" component={Amanha} />
+
 
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default App;
+export default AuthRoutes;

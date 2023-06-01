@@ -1,14 +1,9 @@
 import axios from "axios";
 
-// Pode ser algum servidor executando localmente: 
-// http://localhost:3000
-// LAERCIO HOST: "http://tsiip.com.br:5006/"
-
-/* const api = axios.create({
-  baseURL: "http://localhost:3001/",
-});
- */
 const api = axios.create({
-  baseURL: "http://localhost:5006",
+  baseURL: "http://18.215.162.219:3001",
 });
+/* const api = axios.create({
+  baseURL: "http://192.168.1.102:3001",
+}); */
 export default api;
